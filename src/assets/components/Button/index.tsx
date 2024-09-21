@@ -4,6 +4,8 @@ interface ButtonProps {
     children: React.ReactNode;
     onClick?: () => void;
     color?: 'primary' | 'secondary';
+    variant?: 'contained' | 'outlined';
+    autofocus?: boolean;
 }
 
 const ButtonComponent:React.FC<ButtonProps> = ({ children, onClick, color }) => {

@@ -11,19 +11,50 @@ import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-import { TextField } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import Button from '../Button';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemButton from '@mui/material/ListItemButton';
+import List from '@mui/material/List';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import CloseIcon from '@mui/icons-material/Close';
+import Slide from '@mui/material/Slide';
+import SearchIcon from '@mui/icons-material/Search'; // Added import
+import { TransitionProps } from '@mui/material/transitions';
+
+const Transition = React.forwardRef(function Transition(
+    props: TransitionProps & {
+        children: React.ReactElement<any>;
+    },
+    ref: React.Ref<unknown>,
+) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const Header: React.FC = () => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [dialogOpen, setDialogOpen] = React.useState(false);
+
     const open = Boolean(anchorEl);
+
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
+
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const handleClickOpen = () => {
+        setDialogOpen(true);
+    };
+
+    const handleDialogClose = () => {
+        setDialogOpen(false);
+    };
+
     return (
         <header>
             <div className="flex justify-between">
@@ -108,39 +139,85 @@ const Header: React.FC = () => {
                     </Menu>
                 </React.Fragment>
             </div>
-            <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                margin: '20px 0',
-                border: '0.5px solid #DDDDDD',
-                borderRadius: '92px',
-                padding: '10px 20px 10px 10px',
-            }}>
-                <SearchIcon sx={{ marginRight: '10px', color: '#000' }} />
-                <TextField
-                    id="outlined-basic"
-                    label="Outlined"
-                    sx={{
-                        '& .MuiInputBase-root': {
-                            backgroundColor: 'none',
-                            border: 'none',
+
+            <React.Fragment>
+                <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    margin: '20px 0',
+                    border: '0.5px solid #DDDDDD',
+                    borderRadius: '92px',
+                    padding: '0px 20px 0px 10px',
+                    textAlign: 'start',
+                    justifyContent: 'center',
+                }}>
+                    <SearchIcon sx={{ marginRight: '10px', color: '#000' }} />
+                    <Button
+                        sx={{
+                            width: '100%',
+                            backgroundColor: 'transparent',
                             boxShadow: 'none',
-                        },
-                        '& .MuiOutlinedInput-notchedOutline': {
-                            border: 'none',
-                        },
-                        '& .MuiInputLabel-root': {
-                            display: 'none',
-                        },
-                        '& .MuiInputBase-input': {
-                            padding: 0,
-                            color: '#000', // Change the font color here
-                        },
-
-                    }}
-                />
-
-            </div>
+                            textTransform: 'none',
+                            alignItems: 'start',
+                            justifyContent: 'start',
+                            padding: '10px 0 10px 5px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            '&:hover': {
+                                backgroundColor: 'transparent',
+                                boxShadow: 'none',
+                            },
+                            outline: 'none', // Remove o outline
+                            '&:focus': {
+                                outline: 'none', // Remove o outline quando focado
+                            },
+                            color: 'text.primary',
+                        }}
+                        onClick={handleClickOpen}
+                        disableFocusRipple
+                    >
+                        <Typography sx={{fontSize: '14px', fontWeight: '600'}} variant='h6'>Onde será sua festa?</Typography>
+                        <Typography sx={{fontSize: '12px'}} variant='subtitle2'>Quando sera? Quantos convidados?</Typography>
+                    </Button>
+                    <Dialog
+                        fullScreen
+                        open={dialogOpen}
+                        onClose={handleDialogClose}
+                        TransitionComponent={Transition}
+                    >
+                        <AppBar sx={{ position: 'relative' }}>
+                            <Toolbar>
+                                <IconButton
+                                    edge="start"
+                                    color="inherit"
+                                    onClick={handleDialogClose}
+                                    aria-label="close"
+                                >
+                                    <CloseIcon />
+                                </IconButton>
+                                <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                                    Sound
+                                </Typography>
+                                <Button autoFocus onClick={handleDialogClose}>
+                                    save
+                                </Button>
+                            </Toolbar>
+                        </AppBar>
+                        <List>
+                            <ListItemButton>
+                                <ListItemText primary="Phone ringtone" secondary="Titania" />
+                            </ListItemButton>
+                            <Divider />
+                            <ListItemButton>
+                                <ListItemText
+                                    primary="Default notification ringtone"
+                                    secondary="Tethys"
+                                />
+                            </ListItemButton>
+                        </List>
+                    </Dialog>
+                </div>
+            </React.Fragment>
         </header>
     );
 };

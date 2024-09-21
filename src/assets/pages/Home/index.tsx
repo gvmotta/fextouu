@@ -1,9 +1,13 @@
-import Header from "../../components/Header";
+import HeaderDesktop from "../../components/HeaderDesktop";
+import HeaderMobile from "../../components/HeaderMobile";
 
 const HomePage: React.FC = () => {
-    
+
     return (
-        <Header></Header>
+        <>
+            <HeaderDesktop></HeaderDesktop>
+            <HeaderMobile></HeaderMobile>
+        </>
     );
 };
 

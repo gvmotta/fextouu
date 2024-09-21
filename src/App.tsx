@@ -16,6 +16,10 @@ function App() {
         main: '#212121',
         dark: '#000',
         contrastText: '#fff',
+      },
+      text: {
+        primary: '#222222',
+        secondary: '#757575',
       }
     },
     typography: {
