@@ -1,5 +1,3 @@
-import { Typography } from "@mui/material";
-
 interface CardProps {
     pathImage: string;
     text: string;

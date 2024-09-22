@@ -30,10 +30,6 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import CardWithPlaceToChoose from '../CardWithPlaceChoose';
 import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import RestoreIcon from '@mui/icons-material/Restore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -49,7 +45,6 @@ const Header: React.FC = () => {
     const [dialogOpen, setDialogOpen] = React.useState(false);
 
     const open = Boolean(anchorEl);
-    const [value, setValue] = React.useState(0);
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);

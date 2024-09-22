@@ -1,5 +1,4 @@
 import Card from "../../components/Card";
-import HeaderDesktop from "../../components/HeaderDesktop";
 import HeaderMobile from "../../components/HeaderMobile";
 import Grid from '@mui/material/Grid2';
 import Box from '@mui/material/Box';
