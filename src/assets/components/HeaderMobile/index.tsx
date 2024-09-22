@@ -13,8 +13,6 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemButton from '@mui/material/ListItemButton';
 import List from '@mui/material/List';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -23,6 +21,19 @@ import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import SearchIcon from '@mui/icons-material/Search'; // Added import
 import { TransitionProps } from '@mui/material/transitions';
+import { Link, Paper, TextField } from '@mui/material';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import CardWithPlaceToChoose from '../CardWithPlaceChoose';
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import RestoreIcon from '@mui/icons-material/Restore';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -38,6 +49,7 @@ const Header: React.FC = () => {
     const [dialogOpen, setDialogOpen] = React.useState(false);
 
     const open = Boolean(anchorEl);
+    const [value, setValue] = React.useState(0);
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -53,6 +65,12 @@ const Header: React.FC = () => {
 
     const handleDialogClose = () => {
         setDialogOpen(false);
+    };
+
+    const [convidados, setConvidados] = React.useState('');
+
+    const handleChange = (event: SelectChangeEvent) => {
+        setConvidados(event.target.value as string);
     };
 
     return (
@@ -150,6 +168,7 @@ const Header: React.FC = () => {
                     padding: '0px 20px 0px 10px',
                     textAlign: 'start',
                     justifyContent: 'center',
+                    boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px'
                 }}>
                     <SearchIcon sx={{ marginRight: '10px', color: '#000' }} />
                     <Button
@@ -163,6 +182,7 @@ const Header: React.FC = () => {
                             padding: '10px 0 10px 5px',
                             display: 'flex',
                             flexDirection: 'column',
+                            textAlign: 'start',
                             '&:hover': {
                                 backgroundColor: 'transparent',
                                 boxShadow: 'none',
@@ -176,45 +196,159 @@ const Header: React.FC = () => {
                         onClick={handleClickOpen}
                         disableFocusRipple
                     >
-                        <Typography sx={{fontSize: '14px', fontWeight: '600'}} variant='h6'>Onde será sua festa?</Typography>
-                        <Typography sx={{fontSize: '12px'}} variant='subtitle2'>Quando sera? Quantos convidados?</Typography>
+                        <Typography sx={{ fontSize: '14px', fontWeight: '600' }} variant='h6'>Onde será sua festa?</Typography>
+                        <Typography sx={{ fontSize: '12px' }} variant='subtitle2'>Quando sera? Quantos convidados?</Typography>
                     </Button>
                     <Dialog
                         fullScreen
                         open={dialogOpen}
                         onClose={handleDialogClose}
                         TransitionComponent={Transition}
+                        sx={{}}
                     >
-                        <AppBar sx={{ position: 'relative' }}>
-                            <Toolbar>
+                        <AppBar sx={{ position: 'relative', boxShadow: 'none', paddingRight: '0px !important' }}>
+                            <Toolbar sx={{ backgroundColor: 'background.default', border: 'none' }}>
                                 <IconButton
                                     edge="start"
-                                    color="inherit"
+                                    sx={{ color: 'text.primary' }}
                                     onClick={handleDialogClose}
                                     aria-label="close"
                                 >
                                     <CloseIcon />
                                 </IconButton>
-                                <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                                    Sound
+                                <Typography sx={{ ml: 2, flex: 1, color: 'text.primary' }} variant="h6" component="div">
+                                    Buscar
                                 </Typography>
-                                <Button autoFocus onClick={handleDialogClose}>
+                                {/* <Button autoFocus onClick={handleDialogClose}>
                                     save
-                                </Button>
+                                </Button> */}
                             </Toolbar>
                         </AppBar>
-                        <List>
-                            <ListItemButton>
-                                <ListItemText primary="Phone ringtone" secondary="Titania" />
-                            </ListItemButton>
-                            <Divider />
-                            <ListItemButton>
-                                <ListItemText
-                                    primary="Default notification ringtone"
-                                    secondary="Tethys"
-                                />
-                            </ListItemButton>
+                        <List sx={{ backgroundColor: 'background.default', display: 'flex', flexDirection: 'column', gap: '1rem', padding: '1rem' }}>
+                            <Paper sx={{ borderRadius: '24px', padding: '1rem 1.5rem' }} elevation={4}>
+                                <Typography sx={{ fontWeight: '600' }} variant='h5' component="div">
+                                    Onde será?
+                                </Typography>
+                                <div style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    margin: '20px 0',
+                                    border: '0.5px solid #DDDDDD',
+                                    borderRadius: '92px',
+                                    padding: '0px 20px 0px 10px',
+                                }}>
+                                    <SearchIcon sx={{ marginRight: '10px', color: '#000' }} />
+                                    <TextField
+                                        id="outlined-basic"
+                                        label="Outlined"
+                                        sx={{
+                                            '& .MuiInputBase-root': {
+                                                backgroundColor: 'none',
+                                                border: 'none',
+                                                boxShadow: 'none',
+                                            },
+                                            '& .MuiOutlinedInput-notchedOutline': {
+                                                border: 'none',
+                                            },
+                                            '& .MuiInputLabel-root': {
+                                                display: 'none',
+                                            },
+                                            '& .MuiInputBase-input': {
+                                                padding: 0,
+                                                color: '#000', // Change the font color here
+                                            },
+                                            // 'backgroundColor': 'black',
+                                            'padding': '10px 0',
+                                        }}
+                                    />
+
+                                </div>
+                                <div className='overflow-x-auto' style={{ display: 'flex', gap: '10px' }}>
+                                    <CardWithPlaceToChoose
+                                        pathImage='https://a0.muscache.com/pictures/f9ec8a23-ed44-420b-83e5-10ff1f071a13.jpg?im_w=320'
+                                        text='Mundo inteiro'
+                                    />
+                                    <CardWithPlaceToChoose
+                                        pathImage='https://a0.muscache.com/pictures/f9ec8a23-ed44-420b-83e5-10ff1f071a13.jpg?im_w=320'
+                                        text='Mundo inteiro'
+                                    />
+                                    <CardWithPlaceToChoose
+                                        pathImage='https://a0.muscache.com/pictures/f9ec8a23-ed44-420b-83e5-10ff1f071a13.jpg?im_w=320'
+                                        text='Mundo inteiro'
+                                    />
+                                    <CardWithPlaceToChoose
+                                        pathImage='https://a0.muscache.com/pictures/f9ec8a23-ed44-420b-83e5-10ff1f071a13.jpg?im_w=320'
+                                        text='Mundo inteiro'
+                                    />
+                                    <CardWithPlaceToChoose
+                                        pathImage='https://a0.muscache.com/pictures/f9ec8a23-ed44-420b-83e5-10ff1f071a13.jpg?im_w=320'
+                                        text='Mundo inteiro'
+                                    />
+
+                                </div>
+                            </Paper>
+                            <Paper sx={{ borderRadius: '24px', padding: '1rem 1.5rem' }} elevation={4}>
+                                <Typography sx={{ fontWeight: '600' }} variant='h5' component="div">
+                                    Quando será?
+                                </Typography>
+
+
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <StaticDatePicker
+                                        orientation="portrait"
+                                        slots={{
+                                            actionBar: () => null
+                                        }}
+                                        views={['year', 'month', 'day']}
+                                    />
+                                </LocalizationProvider>
+
+                            </Paper>
+                            <Paper sx={{ borderRadius: '24px', padding: '1rem 1.5rem', gap: '10px', display: 'flex', flexDirection: 'column' }} elevation={4}>
+                                <Typography sx={{ fontWeight: '600' }} variant='h5' component="div">
+                                    Quantos convidados?
+                                </Typography>
+
+
+                                <Box sx={{ minWidth: 120 }}>
+                                    <FormControl fullWidth variant='standard'>
+                                        <InputLabel id="demo-simple-select-label">Número de convidados</InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={convidados}
+                                            label="Age"
+                                            onChange={handleChange}
+                                        >
+                                            <MenuItem value={50}>10 - 50</MenuItem>
+                                            <MenuItem value={100}>50 - 100</MenuItem>
+                                            <MenuItem value={150}>100 - 150</MenuItem>
+                                            <MenuItem value={200}>150 - 200</MenuItem>
+                                            <MenuItem value={250}>200 - 250</MenuItem>
+                                            <MenuItem value={400}>250 - 300</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </Box>
+
+                            </Paper>
                         </List>
+
+
+
+
+                        <Box sx={{
+                            padding: '1rem',
+                        }}>
+                            <BottomNavigation sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                height: '100%',
+                            }}>
+                                <Link href="#">Limpar dados</Link>
+                                <Button variant="contained">Buscar</Button>
+                            </BottomNavigation>
+                        </Box>
                     </Dialog>
                 </div>
             </React.Fragment>

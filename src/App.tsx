@@ -20,6 +20,10 @@ function App() {
       text: {
         primary: '#222222',
         secondary: '#757575',
+      },
+      background: {
+        default: '#FAFAFA',
+        paper: '#fff',
       }
     },
     typography: {

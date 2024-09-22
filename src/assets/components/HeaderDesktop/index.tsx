@@ -13,7 +13,6 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import Button from '../Button';
 
 const Header: React.FC = () => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);

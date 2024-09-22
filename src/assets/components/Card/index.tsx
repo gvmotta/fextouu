@@ -4,28 +4,43 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import CardActionArea from '@mui/material/CardActionArea';
 
-export default function ActionAreaCard() {
+interface ActionAreaCardProps {
+    image: string;
+    local: string;
+    distancia: string;
+    convidados: string;
+    preco: string;
+}
+
+const ActionAreaCard: React.FC<ActionAreaCardProps> = ({ image, local, distancia, convidados, preco }) => {
     return (
-        <Card sx={{ maxWidth: 345, backgroundColor: 'transparent' }}>
+        <Card sx={{ maxWidth: 345, backgroundColor: 'transparent', boxShadow: 'none', padding: '0', margin: '0' }}>
             <CardActionArea>
                 <CardMedia
                     component="img"
                     height="300"
                     width="300"
-                    image="https://www.afrikanhouse.com.br/images/paginas/casamento-1.jpg"
+                    image={image}
                     alt="green iguana"
                     sx={{ borderRadius: '12px' }}
                 />
-                <CardContent>
-                    <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: 'start' }}>
-                        Lizard
+                <CardContent sx={{paddingLeft: '0'}}>
+                    <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: 'start', fontWeight: 'bold' }}>
+                        {local}
                     </Typography>
                     <Typography variant="body2" sx={{ color: 'text.secondary', textAlign: 'start' }}>
-                        Lizards are a widespread group of squamate reptiles, with over 6,000
-                        species, ranging across all continents except Antarctica
+                        {distancia} 
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', textAlign: 'start' }}>
+                        {convidados} 
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', textAlign: 'start', fontWeight: 'bold' }}>
+                        {preco} 
                     </Typography>
                 </CardContent>
             </CardActionArea>
         </Card>
     );
 }
+
+export default ActionAreaCard;
